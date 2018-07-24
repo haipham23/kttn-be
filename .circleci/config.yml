@@ -1,0 +1,17 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10.6
+
+    working_directory: ~/kttn
+
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      - deploy:
+          name: Build and push image to docker registry
+          command: |
+            docker login $DOCKER_REPO -u $DOCKER_USER -p $DOCKER_PASS
+            npm run deploy
