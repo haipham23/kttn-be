@@ -10,7 +10,7 @@ const parseWrapper = async (func, res) => {
   }
 };
 
-const isEmail = email => Isemail.validate(email);
+const isEmail = email => email && Isemail.validate(email);
 const isPasswordValid = password => typeof password === 'string' && password.length >= 6;
 
 module.exports = {
