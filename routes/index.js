@@ -1,6 +1,6 @@
 const health = require('../handlers/health');
 const { create, setAdmin, login, reset } = require('../handlers/account');
-const { newChapter, editChapter, removeChapter } = require('../handlers/chapter');
+const { newChapter, editChapter, removeChapter, getAllChapters, getOneChapter } = require('../handlers/chapter');
 
 const routes = [{
   method: 'get',
@@ -26,6 +26,14 @@ const routes = [{
   method: 'post',
   path: '/chapter',
   func: newChapter
+}, {
+  method: 'get',
+  path: '/chapters/:limit/:page',
+  func: getAllChapters
+}, {
+  method: 'get',
+  path: '/chapter/:chapterId',
+  func: getOneChapter
 }, {
   method: 'put',
   path: '/chapter/:chapterId',

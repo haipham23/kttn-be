@@ -61,8 +61,48 @@ const removeChapter = async (req, res, next) => {
   }, res);
 };
 
+const getAllChapters = async (req, res) => {
+  const { limit, page } = req.params;
+
+  parseWrapper(async () => {
+    const query = new Parse.Query('Chapter');
+    query.include('no');
+    query.include('title');
+    query.ascending('no');
+    query.limit(Number(limit));
+    query.skip(Number(page) * Number(limit));
+
+    const chapters = await query.find();
+
+    return chapters && chapters.length > 0
+      ? chapters
+      : Promise.reject('there is no chapter within this range');
+
+  }, res);
+};
+
+const getOneChapter = async (req, res) => {
+  const { chapterId } = req.params;
+
+  parseWrapper(async () => {
+    const query = new Parse.Query('Chapter');
+    query.equalTo('objectId', chapterId);
+    query.include('no');
+    query.include('title');
+    query.include('content');
+
+    const chapter = await query.first();
+
+    return chapter
+      ? chapter
+      : Promise.reject('chapter not found');
+  }, res);
+};
+
 module.exports = {
   newChapter,
   editChapter,
-  removeChapter
+  removeChapter,
+  getAllChapters,
+  getOneChapter
 };
