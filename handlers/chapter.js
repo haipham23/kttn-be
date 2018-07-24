@@ -9,28 +9,19 @@ const newChapter = async (req, res, next) => {
     const query = new Parse.Query('Chapter');
     query.equalTo('no', no);
 
-    console.log(1);
-
     // check chapter number
     const result = await query.first({ sessionToken });
-    console.log(5, result);
     if (result) {
       return Promise.reject('chapter number exists');
     }
 
-    console.log(2);
-
     // save new chapter
     const chapter = new Parse.Object('Chapter');
-
-    console.log(3);
 
     const newChapter = await chapter.save(
       { no, title, content },
       { sessionToken }
     );
-
-    console.log(4);
 
     return newChapter;
   }, res);
