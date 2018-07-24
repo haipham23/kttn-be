@@ -1,8 +1,8 @@
 {
   "scripts": {
     "start": "node ./index.js",
-    "docker:build": "sudo docker build -t registry2.ongtu.com/kttn-be .",
-    "docker:push": "sudo docker push registry2.ongtu.com/kttn-be",
+    "docker:build": "docker build -t registry2.ongtu.com/kttn-be .",
+    "docker:push": "docker push registry2.ongtu.com/kttn-be",
     "deploy": "npm run docker:build && npm run docker:push"
   },
   "dependencies": {
