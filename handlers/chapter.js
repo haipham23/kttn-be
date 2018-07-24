@@ -13,8 +13,9 @@ const newChapter = async (req, res, next) => {
 
     // check chapter number
     const result = await query.find({ sessionToken });
+    console.log(5, result);
     if (result.length) {
-      throw new Error('chapter number exists');
+      return Promise.reject('chapter number exists');
     }
 
     console.log(2);
