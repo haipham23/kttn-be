@@ -7,14 +7,14 @@ const newChapter = async (req, res, next) => {
 
   parseWrapper(async () => {
     const query = new Parse.Query('Chapter');
-    query.exists('no', no);
+    query.equalTo('no', no);
 
     console.log(1);
 
     // check chapter number
-    const result = await query.find({ sessionToken });
+    const result = await query.first({ sessionToken });
     console.log(5, result);
-    if (result.length) {
+    if (result) {
       return Promise.reject('chapter number exists');
     }
 
