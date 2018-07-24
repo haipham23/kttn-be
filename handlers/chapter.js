@@ -3,17 +3,27 @@ const Parse = require('parse/node');
 const { parseWrapper } = require('../services/util');
 
 const newChapter = async (req, res, next) => {
-  const { title, content, sessionToken } = req.body;
+  const { no, title, content, sessionToken } = req.body;
 
   parseWrapper(async () => {
+    const query = new Parse.Query('Chapter');
+    query.exists('no', no);
+
+    // check chapter number
+    const result = await query.find({ sessionToken });
+    if (result.length) {
+      throw new Error('chapter number exists');
+    }
+
+    // save new chapter
     const chapter = new Parse.Object('Chapter');
 
-    const result = await chapter.save(
-      { title, content },
+    const newChapter = await chapter.save(
+      { no, title, content },
       { sessionToken }
     );
 
-    return result;
+    return newChapter;
   }, res);
 };
 

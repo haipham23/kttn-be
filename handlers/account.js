@@ -7,10 +7,10 @@ const { parseWrapper, isEmail, isPasswordValid } = require('../services/util');
 
 const getSessionByQuery = async (sessionToken) => {
   const query = new Parse.Query(Parse.Session);
-  query.equalTo('sessionToken', req.body.sessionToken);
+  query.equalTo('sessionToken', sessionToken);
 
   const result = await query.first({ useMasterKey: true });
-  const user = query.get('user');
+  const user = result.get('user');
 
   return user;
 };
@@ -68,6 +68,11 @@ const login = async (req, res) => {
 const setAdmin = async (req, res) => {
   parseWrapper(async () => {
     const user = await getSessionByQuery(req.body.sessionToken);
+
+    if (!user) {
+      throw new Error('no user found');
+    }
+
     const adminRole = await getAdminRole();
 
     adminRole.getUsers().add(user);
